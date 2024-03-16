@@ -1,0 +1,19 @@
+{
+  "name": "wonderland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/lambdaFunction.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.136",
+    "discord.js": "^14.14.1",
+    "web3": "^4.6.0"
+  }
+}
