@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/lambdaFunction.js"
+    "start": "node dist/lambdaFunction.js",
+    "go": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "dependencies": {
     "@types/aws-lambda": "^8.10.136",
     "discord.js": "^14.14.1",
+    "ethers": "^6.11.1",
     "web3": "^4.6.0"
   }
 }

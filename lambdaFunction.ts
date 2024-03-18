@@ -1,21 +1,26 @@
-import Web3 from 'web3';
+import { ethers } from 'ethers';
 import sequencerABI from './sequencerABI.json';
 
 const rpcURL = 'https://mainnet.infura.io/v3/1e37ec6e4d714436aa51cbce932b06af';
 const sequencerAddress = '0x238b4E35dAed6100C6162fAE4510261f88996EC9'
 
-export const handler = async (event: any, context: any) => {
+export const handler = async (event=null, context=null) => {
     try {
-        // connection to sequencer contract
-        const web3 = new Web3(rpcURL);
-        const sequencerContract = new web3.eth.Contract(sequencerABI, sequencerAddress);
-        const numNetworks = await sequencerContract.methods.numNetworks().call();
+        // Connection to sequencer contract
+        const provider = new ethers.JsonRpcProvider(rpcURL);
+        const sequencerContract = new ethers.Contract(sequencerAddress, sequencerABI, provider);
+        const numNetworks = await sequencerContract.numNetworks();
+        const numJobs = await sequencerContract.numJobs();
         console.log('Number of networks: ', numNetworks);
-        // check last 10 blocks
-        // send discord alert?
+        console.log('Number of jobs: ', numJobs);
+        const firstNetwork = await sequencerContract.networkAt(0);
+        console.log('First network: ', firstNetwork);
+        // Check last 10 blocks
+
+        // Send discord alert?
     } catch (error) {
         console.error(error);
-    };
+    }
 };
 
-handler(null, null);
+handler();
