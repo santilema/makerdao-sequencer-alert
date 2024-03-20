@@ -39,41 +39,48 @@ const fetchContractABI = async (address) => {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        // check if ABI was returned
-        if (data.status == "1" && data.message == "OK") {
-            return await JSON.parse(data.result);
+        if (data.status === "1" && data.message === "OK") {
+            return JSON.parse(data.result);
         }
         else {
-            console.error("Error fetching contract ABI");
+            console.error("Error fetching contract ABI:", data.result);
             return null;
         }
     }
     catch (error) {
-        console.error("Error fetching ABI", error);
+        console.error("Error fetching ABI:", error);
         return null;
     }
 };
 const getWorkEventSignature = async (jobAddress) => {
+    let abi;
+    const abiPath = path_1.default.join(__dirname, "jobsABIs", `${jobAddress}.json`);
     try {
-        const abiPath = path_1.default.join(__dirname, "jobsABIs", `${jobAddress}.json`);
         const abiJson = await (0, promises_1.readFile)(abiPath, "utf8");
-        const abi = JSON.parse(abiJson);
-        for (const item of abi) {
-            if (item.type == "event" && item.name == "Work") {
-                const eventName = item.name;
-                const paramsTypes = item.inputs
-                    .map((input) => input.type)
-                    .join(",");
-                const eventSignature = `${eventName}(${paramsTypes})`;
-                console.log(eventSignature);
-                return ethers_1.ethers.id(eventSignature);
-            }
-        }
-        console.error(`Work event not found in ABI for  ${jobAddress}`);
+        abi = JSON.parse(abiJson);
     }
     catch (error) {
-        console.log(`Failed to read ABI for ${jobAddress}:`, error);
+        console.error(`Failed to read ABI for ${jobAddress}:`, error);
+        abi = await fetchContractABI(jobAddress);
+        if (abi) {
+            await (0, promises_1.writeFile)(abiPath, JSON.stringify(abi), "utf-8");
+            console.log(`ABI for ${jobAddress} saved to ${abiPath}`);
+        }
+        else {
+            console.error(`Failed to fetch ABI for ${jobAddress}`);
+            return undefined;
+        }
     }
+    for (const item of abi) {
+        if (item.type == "event" && item.name == "Work") {
+            const eventName = item.name;
+            const paramsTypes = item.inputs.map((input) => input.type).join(",");
+            const eventSignature = `${eventName}(${paramsTypes})`;
+            console.log(eventSignature);
+            return ethers_1.ethers.id(eventSignature);
+        }
+    }
+    console.error(`Work event not found in ABI for  ${jobAddress}`);
     return undefined;
 };
 const handler = async (event = null, context = null) => {

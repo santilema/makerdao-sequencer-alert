@@ -36,29 +36,53 @@ const sendDiscordAlert = async (webhookUrl: string, message: string) => {
   }
 };
 
+const fetchContractABI = async (address: string): Promise<any> => {
+  const url = `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${etherscanApiKey}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.status === "1" && data.message === "OK") {
+      return JSON.parse(data.result);
+    } else {
+      console.error("Error fetching contract ABI:", data.result);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching ABI:", error);
+    return null;
+  }
+};
+
 const getWorkEventSignature = async (
   jobAddress: string
 ): Promise<string | undefined> => {
+  let abi;
+  const abiPath = path.join(__dirname, "jobsABIs", `${jobAddress}.json`);
   try {
-    const abiPath = path.join(__dirname, "jobsABIs", `${jobAddress}.json`);
     const abiJson = await readFile(abiPath, "utf8");
-    const abi = JSON.parse(abiJson);
-
-    for (const item of abi) {
-      if (item.type == "event" && item.name == "Work") {
-        const eventName = item.name;
-        const paramsTypes = item.inputs
-          .map((input: any) => input.type)
-          .join(",");
-        const eventSignature = `${eventName}(${paramsTypes})`;
-        console.log(eventSignature);
-        return ethers.id(eventSignature);
-      }
-    }
-    console.error(`Work event not found in ABI for  ${jobAddress}`);
+    abi = JSON.parse(abiJson);
   } catch (error) {
-    console.log(`Failed to read ABI for ${jobAddress}:`, error);
+    console.error(`Failed to read ABI for ${jobAddress}:`, error);
+    abi = await fetchContractABI(jobAddress);
+    if (abi) {
+      await writeFile(abiPath, JSON.stringify(abi), "utf-8");
+      console.log(`ABI for ${jobAddress} saved to ${abiPath}`);
+    } else {
+      console.error(`Failed to fetch ABI for ${jobAddress}`);
+      return undefined;
+    }
   }
+
+  for (const item of abi) {
+    if (item.type == "event" && item.name == "Work") {
+      const eventName = item.name;
+      const paramsTypes = item.inputs.map((input: any) => input.type).join(",");
+      const eventSignature = `${eventName}(${paramsTypes})`;
+      console.log(eventSignature);
+      return ethers.id(eventSignature);
+    }
+  }
+  console.error(`Work event not found in ABI for  ${jobAddress}`);
   return undefined;
 };
 
