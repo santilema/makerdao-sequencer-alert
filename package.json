@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "node ./dist/lambdaFunction.js",
+    "start": "node ./function/index.js",
     "go": "npm run build && npm run start"
   },
   "keywords": [],
