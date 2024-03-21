@@ -32,9 +32,4 @@ jobs:
           zip_file: makerdao-sequencer-alert.zip
           handler: index.handler
           runtime: nodejs20.x
-        env: 
-          BLOCKS_WINDOW: ${{ vars.BLOCKS_WINDOW }},
-          DISCORD_WEBHOOK: ${{ vars.DISCORD_WEBHOOK }}
-          RPC_URL: ${{ vars.RPC_URL }}
-          SEQUENCER_ADDRESS: ${{ vars.SEQUENCER_ADDRESS }}
-          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+          environment: BLOCKS_WINDOW=${{ vars.BLOCKS_WINDOW }}, DISCORD_WEBHOOK=${{ vars.DISCORD_WEBHOOK }}, RPC_URL=${{ vars.RPC_URL }}, SEQUENCER_ADDRESS=${{ vars.SEQUENCER_ADDRESS }}, ETHERSCAN_API_KEY=${{ secrets.ETHERSCAN_API_KEY }}
