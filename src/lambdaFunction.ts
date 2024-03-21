@@ -91,5 +91,3 @@ export const handler = async (event = null, context = null) => {
     console.error(error);
   }
 };
-
-handler();
