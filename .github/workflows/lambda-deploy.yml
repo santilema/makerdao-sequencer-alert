@@ -31,6 +31,7 @@ jobs:
           function_name: MakerdaoSequencerAlert
           zip_file: makerdao-sequencer-alert.zip
           handler: handler
+          runtime: nodejs20.x
         env: 
           BLOCKS_WINDOW: ${{ vars.BLOCKS_WINDOW }},
           DISCORD_WEBHOOK: ${{ vars.DISCORD_WEBHOOK }}
