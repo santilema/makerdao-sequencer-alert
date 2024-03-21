@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const etherscan_1 = require("./utils/etherscan");
 const alerts_1 = require("./utils/alerts");
-const sequencerABI_json_1 = __importDefault(require("../sequencerABI.json"));
+const sequencerABI_json_1 = __importDefault(require("./sequencerABI.json"));
 const ethers_1 = require("ethers");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
