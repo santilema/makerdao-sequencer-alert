@@ -1,0 +1,39 @@
+name: Deploy Lambda Function
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Zip function
+        run: zip -r makerdao-sequencer-alert.zip .
+
+      - name: Deploy Lambda Function
+        uses: appleboy/lambda-action@v0.1.9
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: MakerdaoSequencerAlert
+          zip_file: makerdao-sequencer-alert.zip
+          handler: handler
+        env: 
+          BLOCKS_WINDOW: ${{ vars.BLOCKS_WINDOW }},
+          DISCORD_WEBHOOK: ${{ vars.DISCORD_WEBHOOK }}
+          RPC_URL: ${{ vars.RPC_URL }}
+          SEQUENCER_ADDRESS: ${{ vars.SEQUENCER_ADDRESS }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
