@@ -32,8 +32,8 @@ jest.mock("../src/utils/alerts", () => ({
 jest.mock("../src/utils/etherscan", () => ({
   getWorkEventSignature: jest.fn().mockResolvedValue("0xMockJobAddress"),
 }));
-import { handler } from "../src/lambdaFunction";
-import { sendAlert } from "../src/utils/alerts";
+import { handler } from "../index";
+import { sendAlert } from "../utils/alerts";
 import { ethers } from "ethers";
 
 describe("handler function", () => {
