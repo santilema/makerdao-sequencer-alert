@@ -54,7 +54,7 @@ export const getWorkEventSignature = async (
   etherscanApiKey: string
 ): Promise<string | undefined> => {
   let abi;
-  const abiPath = path.join(__dirname, "../..", "jobsABIs", `${jobAddress}.json`);
+  const abiPath = path.join(__dirname, "..", "jobsABIs", `${jobAddress}.json`);
   try {
     const abiJson = await readFile(abiPath, "utf8");
     abi = JSON.parse(abiJson);

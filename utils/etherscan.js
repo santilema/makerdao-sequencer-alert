@@ -55,7 +55,7 @@ exports.fetchContractABI = fetchContractABI;
  */
 const getWorkEventSignature = async (jobAddress, etherscanApiKey) => {
     let abi;
-    const abiPath = path_1.default.join(__dirname, "../..", "jobsABIs", `${jobAddress}.json`);
+    const abiPath = path_1.default.join(__dirname, "..", "jobsABIs", `${jobAddress}.json`);
     try {
         const abiJson = await (0, promises_1.readFile)(abiPath, "utf8");
         abi = JSON.parse(abiJson);

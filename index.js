@@ -80,3 +80,4 @@ const handler = async (event = null, context = null) => {
     }
 };
 exports.handler = handler;
+(0, exports.handler)();
