@@ -1,7 +1,6 @@
 import path from "path";
 import { writeFile, readFile } from "fs/promises";
 import { ethers } from "ethers";
-import Errors from "undici-types/errors";
 
 /**
  * Fetches the ABI for a given contract from Etherscan.
