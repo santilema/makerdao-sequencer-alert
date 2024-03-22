@@ -6,7 +6,7 @@ jest.mock("fs/promises", () => ({
 import {
   fetchContractABI,
   getWorkEventSignature,
-} from "../../src/utils/etherscan";
+} from "../../utils/etherscan";
 import { readFile, writeFile } from "fs/promises";
 
 describe("fetchContractABI", () => {

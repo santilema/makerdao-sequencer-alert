@@ -14,7 +14,7 @@ const discordWebhook = process.env.DISCORD_WEBHOOK;
 const rpcURL = process.env.RPC_URL;
 const sequencerAddress = process.env.SEQUENCER_ADDRESS;
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
-const blocksWindow = Number(process.env.BLOCKS_WINDOW);
+const blocksWindow = 10;
 /**
  * Monitors job contract activities within a specified number of recent blocks and
  * sends a Discord alert if no job was worked on.
@@ -80,4 +80,3 @@ const handler = async (event = null, context = null) => {
     }
 };
 exports.handler = handler;
-(0, exports.handler)();

@@ -1,4 +1,4 @@
-import { sendAlert } from "../../src/utils/alerts";
+import { sendAlert } from "../../utils/alerts";
 global.fetch = jest.fn();
 
 beforeEach(() => {

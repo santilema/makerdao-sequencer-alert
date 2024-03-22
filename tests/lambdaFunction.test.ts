@@ -26,10 +26,10 @@ jest.mock("ethers", () => {
       },
   };
 });
-jest.mock("../src/utils/alerts", () => ({
+jest.mock("../utils/alerts", () => ({
   sendAlert: jest.fn().mockResolvedValue(undefined),
 }));
-jest.mock("../src/utils/etherscan", () => ({
+jest.mock("../utils/etherscan", () => ({
   getWorkEventSignature: jest.fn().mockResolvedValue("0xMockJobAddress"),
 }));
 import { handler } from "../index";
