@@ -9,7 +9,7 @@ const discordWebhook = process.env.DISCORD_WEBHOOK as string;
 const rpcURL = process.env.RPC_URL as string;
 const sequencerAddress = process.env.SEQUENCER_ADDRESS as string;
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY as string;
-const blocksWindow = Number(process.env.BLOCKS_WINDOW as string);
+const blocksWindow = 10;
 
 /**
  * Monitors job contract activities within a specified number of recent blocks and
